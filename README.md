@@ -1,5 +1,7 @@
 
 # Large Logic Model: Neural Network-Powered Boolean Logic Reduction
+<img width="753" height="499" alt="スクリーンショット 2025-08-08 13 06 36" src="https://github.com/user-attachments/assets/2d142cbf-f0bf-4849-88fc-0dfddba1aa28" />
+*image by google-image-1
 
 ## Project Overview
 

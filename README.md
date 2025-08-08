@@ -110,12 +110,19 @@ The Large Logic Model tackles NP-type logic problems by mapping any Boolean form
 3. Training converges reliably within 50 epochs (approximately 5 minutes)
 4. The 8D model shows faster initial convergence but both reach the same final performance
 
+> Note: This implementation focuses on positive literals for simplicity, though the architecture naturally extends to handle negated variables by adding corresponding negation columns to the input representation.
+
 ## Installation & Usage
 
 ### Requirements
 ```bash
 python >= 3.10
-pip install torch numpy scikit-learn
+pip install torch torchvision torchaudio
+pip install numpy
+pip install pandas
+pip install matplotlib
+pip install seaborn
+pip install scikit-learn
 ```
 
 ### Example Usage
@@ -145,5 +152,6 @@ print(results)
 - Requires propositional encoding for first-order or temporal logics
 
 ## Final Thoughts
+This model offers a general solution path for logic-based inference. Any Boolean logic built from parentheses, NOT, AND, OR - including typical if–else conditions - can be converted to CNF/DNF and fed into this architecture. By replacing exponential exact search with scalable probabilistic inference, it retains full propositional expressiveness while handling very large instances. Future work will validate performance on industrial benchmarks and explore extensions to richer logics.
 
-This model offers a general solution path for logic-based inference. Any Boolean logic built from parentheses, NOT, AND, OR—including typical if–else conditions—can be converted to CNF/DNF and fed into this architecture. By replacing exponential exact search with scalable probabilistic inference, it retains full propositional expressiveness while handling very large instances. Future work will validate performance on industrial benchmarks and explore extensions to richer logics.
+Deterministic logic has been ML's Achilles' heel - statistical models excel at pattern recognition but fail at exact reasoning. Logic isn't magic - it's money. Enterprise systems still run on deterministic rules, not statistical guesses.

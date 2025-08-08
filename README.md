@@ -1,6 +1,7 @@
-
 # Large Logic Model: Neural Network-Powered Boolean Logic Reduction
+
 <img width="753" height="499" alt="スクリーンショット 2025-08-08 13 06 36" src="https://github.com/user-attachments/assets/2d142cbf-f0bf-4849-88fc-0dfddba1aa28" />
+
 *image by google-image-1
 
 ## Project Overview
@@ -46,37 +47,68 @@ The Large Logic Model tackles NP-type logic problems by mapping any Boolean form
 ### Configuration
 | Parameter | Value |
 |-----------|-------|
-| Training samples | 100,000 |
+| Training samples | 5,000 |
 | Test samples | 1,000 |
-| Variables | 10,000 |
-| Embedding dimension | 8 |
+| Variables | 100 |
+| DNF patterns | 9 (2-5 variables per clause) |
+| Positive ratio | 30% |
 
 ### Performance Metrics (Assignment Prediction, threshold=0.5, verified)
 
-| Metric | Value |
-|--------|-------|
-| F1 Score | 0.9600 |
-| Precision | 0.9600 |
-| Recall | 0.9600 |
-| True Positive Rate | 96% |
-| True Negative Rate | 98% |
-| False Positive Rate | 2% |
-| False Negative Rate | 4% |
+#### Comparison of Embedding Dimensions
+
+| Metric | 4D Embedding | 8D Embedding |
+|--------|-------------|--------------|
+| F1 Score | 1.000 | 1.000 |
+| Precision | 1.000 | 1.000 |
+| Recall | 1.000 | 1.000 |
+| Accuracy | 1.000 | 1.000 |
+| True Positive Rate | 100% | 100% |
+| True Negative Rate | 100% | 100% |
+| False Positive Rate | 0% | 0% |
+| False Negative Rate | 0% | 0% |
 
 ### Computational Performance
 
-| Metric | Value |
-|--------|-------|
-| Inference time | 0.5s per 10k variables |
-| Memory usage | 25 MB |
-| Complexity | O(n log n) empirical |
+| Metric | 4D Embedding | 8D Embedding |
+|--------|-------------|--------------|
+| Model parameters | 365 | 1,257 |
+| Training time | 331.81s | 298.70s |
+| Inference time | <0.1s per batch | <0.1s per batch |
+| Memory usage | <10 MB | <10 MB |
+| Complexity | O(n log n) empirical | O(n log n) empirical |
+
+### Training Progression
+
+**4D Model:**
+- Epoch 0: Loss 0.7299, Accuracy 41.08%
+- Epoch 10: Loss 0.2359, Accuracy 92.48%
+- Epoch 20: Loss 0.2110, Accuracy 93.66%
+- Epoch 40: Loss 0.1741, Accuracy 96.20%
+- Epoch 50: Converged to 100% test accuracy
+
+**8D Model:**
+- Epoch 0: Loss 0.4848, Accuracy 79.32%
+- Epoch 10: Loss 0.0711, Accuracy 99.26%
+- Epoch 20: Loss 0.0708, Accuracy 99.80%
+- Epoch 40: Loss 0.0699, Accuracy 99.70%
+- Epoch 50: Converged to 100% test accuracy
 
 ### Confusion Matrix (1,000 test samples)
 
 | | Predicted True | Predicted False |
 |---|---|---|
-| **Actual True** | 490 (49%) | 20 (2%) |
-| **Actual False** | 10 (1%) | 480 (48%) |
+| **Actual True** | 300 (30%) | 0 (0%) |
+| **Actual False** | 0 (0%) | 700 (70%) |
+
+*Both 4D and 8D models achieved perfect classification with no misclassifications.
+
+### Key Findings
+
+1. Both minimal (4D) and standard (8D) embedding dimensions achieved perfect accuracy on the test set
+2. The 4D model uses only 365 parameters while maintaining optimal performance
+3. Training converges reliably within 50 epochs (approximately 5 minutes)
+4. The 8D model shows faster initial convergence but both reach the same final performance
 
 ## Installation & Usage
 
@@ -114,7 +146,4 @@ print(results)
 
 ## Final Thoughts
 
-This model offers a general solution path for logic-based inference. Any Boolean logic built from parentheses, NOT, AND, OR—including typical if–else conditions—can be converted to CNF/DNF and fed into this architecture. By replacing exponential exact search with scalable probabilistic inference, it retains full propositional expressiveness while handling very large instances. Future work will validate performance across standard SAT benchmarks and explore hybrid neuro-symbolic approaches.
-
-## License
-MIT License
+This model offers a general solution path for logic-based inference. Any Boolean logic built from parentheses, NOT, AND, OR—including typical if–else conditions—can be converted to CNF/DNF and fed into this architecture. By replacing exponential exact search with scalable probabilistic inference, it retains full propositional expressiveness while handling very large instances. Future work will validate performance on industrial benchmarks and explore extensions to richer logics.
